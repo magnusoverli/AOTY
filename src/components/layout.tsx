@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
-import { Button } from './ui/button'
 import { authClient } from '../auth-client'
+import AppSidebar from './AppSidebar'
+import { SidebarProvider, SidebarTrigger } from './ui/sidebar'
 
 export default function Layout({
   children,
@@ -11,14 +12,18 @@ export default function Layout({
 }) {
   const { data: session } = authClient.useSession()
   return (
-    <div className="min-h-screen flex flex-col">
-      {showHeader && session?.user && (
-        <header className="border-b p-4 flex justify-between">
-          <h1 className="font-bold">Bun App</h1>
-          <Button onClick={() => authClient.signOut()}>Logout</Button>
-        </header>
-      )}
-      <main className="flex-1 p-4">{children}</main>
-    </div>
+    <SidebarProvider>
+      <div className="min-h-screen flex">
+        {session?.user && <AppSidebar />}
+        <div className="flex-1 flex flex-col">
+          {showHeader && session?.user && (
+            <header className="md:hidden border-b p-4 flex justify-between">
+              <SidebarTrigger />
+            </header>
+          )}
+          <main className="flex-1 p-4">{children}</main>
+        </div>
+      </div>
+    </SidebarProvider>
   )
 }
