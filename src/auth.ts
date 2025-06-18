@@ -2,7 +2,7 @@ import { betterAuth } from 'better-auth'
 import { magicLink } from 'better-auth/plugins/magic-link'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { db } from './db'
-import * as schema from '../auth-schema'
+import * as schema from './db/schema/auth-schema'
 import { config } from 'dotenv'
 import sgMail from '@sendgrid/mail'
 
