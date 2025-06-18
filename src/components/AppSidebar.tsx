@@ -16,7 +16,6 @@ export default function AppSidebar() {
       <SidebarHeader>
         <span className="font-bold flex-1">Bun App</span>
         <span className="text-xs text-gray-500">{session.user.email}</span>
-        <SidebarTrigger />
       </SidebarHeader>
       <SidebarContent>
         <a href="/" className="block px-3 py-2 rounded hover:bg-muted">Dashboard</a>

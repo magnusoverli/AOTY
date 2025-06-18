@@ -28,10 +28,8 @@ export function Sidebar({ children }: { children: ReactNode }) {
   const { open } = useSidebar()
   return (
     <aside
-      className={`fixed md:static inset-y-0 left-0 bg-white border-r transform transition-all flex flex-col ${
-        open
-          ? 'w-64 translate-x-0'
-          : 'w-0 md:w-16 -translate-x-full md:translate-x-0'
+      className={`fixed inset-y-0 left-0 z-40 w-64 bg-white border-r transform transition-transform flex flex-col ${
+        open ? 'translate-x-0' : '-translate-x-full'
       }`}
     >
       {children}
