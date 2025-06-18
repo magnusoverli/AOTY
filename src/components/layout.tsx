@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react'
 import { authClient } from '../auth-client'
 import AppSidebar from './AppSidebar'
-import { SidebarProvider } from './ui/sidebar'
+import { SidebarProvider, SidebarTrigger } from './ui/sidebar'
 import { Button } from './ui/button'
 import { Settings, Sun, Moon } from 'lucide-react'
 
@@ -22,7 +22,10 @@ export default function Layout({
         <div className="flex-1 flex flex-col">
           {showHeader && session?.user && (
             <header className="sticky top-0 z-50 flex h-14 shrink-0 items-center justify-between border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4">
-              <span className="font-semibold">Bun App</span>
+              <div className="flex items-center gap-2">
+                <SidebarTrigger />
+                <span className="font-semibold">Bun App</span>
+              </div>
               <div className="flex items-center gap-2">
                 <Button variant="ghost" size="icon" className="rounded-full">
                   {initial}
