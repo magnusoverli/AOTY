@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import { Button } from './ui/button'
+import { authClient } from '../auth-client'
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
@@ -7,9 +8,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <header className="border-b p-4 flex justify-between">
         <h1 className="font-bold">Bun App</h1>
         <nav>
-          <Button asChild>
-            <a href="/api/auth/sign-out">Logout</a>
-          </Button>
+          <Button onClick={() => authClient.signOut()}>Logout</Button>
         </nav>
       </header>
       <main className="flex-1 p-4">{children}</main>

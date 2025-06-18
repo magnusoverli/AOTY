@@ -17,7 +17,7 @@ export default function Home() {
       {session?.user ? (
         <div>
           <p>Signed in as {session.user.email}</p>
-          <Button asChild><a href="/api/auth/sign-out">Sign out</a></Button>
+          <Button onClick={() => authClient.signOut()}>Sign out</Button>
         </div>
       ) : (
         <div className="space-y-2">
