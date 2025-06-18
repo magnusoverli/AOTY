@@ -8,5 +8,3 @@ export const db = drizzle({
     connectionString: process.env.DATABASE_URL!,
   }
 });
-
-export * from './schema'
