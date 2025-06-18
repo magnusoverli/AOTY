@@ -1,0 +1,5 @@
+[serve.static]
+plugins = ["bun-plugin-tailwind", "bun-plugin-env"]
+
+[plugins.env]
+path = "./.env"
