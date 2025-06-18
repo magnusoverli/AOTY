@@ -1,0 +1,42 @@
+{
+  "name": "bun-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.tsx",
+  "scripts": {
+    "dev": "bun --hot src/index.tsx",
+    "start": "NODE_ENV=production bun src/index.tsx",
+    "build": "bun run build.ts",
+    "migrate:generate": "drizzle-kit generate:pg",
+    "migrate:push": "drizzle-kit push:pg",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up",
+    "docker:down": "docker-compose down"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.2.3",
+    "better-auth": "^1.2.9",
+    "bun-plugin-tailwind": "^0.0.14",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dotenv": "^16.5.0",
+    "drizzle-orm": "^0.44.2",
+    "lucide-react": "^0.517.0",
+    "nodemailer": "^7.0.3",
+    "pg": "^8.16.1",
+    "pg-connection-string": "^2.9.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^4.1.10"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/bun": "latest",
+    "drizzle-kit": "^0.31.1",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6"
+  }
+}
