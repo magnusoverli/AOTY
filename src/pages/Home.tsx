@@ -1,30 +1,13 @@
-import { useState } from 'react'
-import { Button } from '../components/ui/button'
 import Layout from '../components/layout'
+import LoginForm from '../components/LoginForm'
+import Dashboard from '../components/Dashboard'
 import { authClient } from '../auth-client'
 
 export default function Home() {
   const { data: session } = authClient.useSession()
-  const [email, setEmail] = useState('')
-
-  const requestMagic = async () => {
-    await authClient.signIn.magicLink({ email })
-    alert('Check your email for the magic link')
-  }
-
   return (
-    <Layout>
-      {session?.user ? (
-        <div>
-          <p>Signed in as {session.user.email}</p>
-          <Button onClick={() => authClient.signOut()}>Sign out</Button>
-        </div>
-      ) : (
-        <div className="space-y-2">
-          <input value={email} onChange={e => setEmail(e.target.value)} className="border p-2" placeholder="Email" />
-          <Button onClick={requestMagic}>Send Magic Link</Button>
-        </div>
-      )}
+    <Layout showHeader={!!session?.user}>
+      {session?.user ? <Dashboard /> : <LoginForm />}
     </Layout>
   )
 }
