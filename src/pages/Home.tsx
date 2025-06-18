@@ -1,22 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Button } from '../components/ui/button'
 import Layout from '../components/layout'
+import { authClient } from '../auth-client'
 
 export default function Home() {
-  const [session, setSession] = useState<{ user?: { email: string } } | null>(null)
-
-  useEffect(() => {
-    fetch('/api/auth/session').then(res => res.ok ? res.json() : null).then(setSession)
-  }, [])
-
+  const { data: session } = authClient.useSession()
   const [email, setEmail] = useState('')
 
   const requestMagic = async () => {
-    await fetch('/api/auth/sign-in/magic-link', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
-    })
+    await authClient.signIn.magicLink({ email })
     alert('Check your email for the magic link')
   }
 
