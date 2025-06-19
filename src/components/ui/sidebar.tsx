@@ -28,7 +28,7 @@ export function Sidebar({ children }: { children: ReactNode }) {
   const { open } = useSidebar()
   return (
     <aside
-      className={`flex flex-col border-r bg-white overflow-hidden transition-[width] ${
+      className={`flex flex-col border-r bg-sidebar text-sidebar-foreground overflow-hidden transition-[width] ${
         open ? 'w-64' : 'w-0'
       }`}
     >
@@ -54,7 +54,7 @@ export function SidebarTrigger() {
   return (
     <button
       onClick={() => setOpen(o => !o)}
-      className="p-2 border rounded hover:bg-gray-100"
+      className="p-2 border rounded hover:bg-muted"
     >
       ☰
     </button>

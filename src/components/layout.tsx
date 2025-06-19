@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { authClient } from '../auth-client'
 import AppSidebar from './AppSidebar'
 import { SidebarProvider, SidebarTrigger } from './ui/sidebar'
@@ -13,7 +13,18 @@ export default function Layout({
   showHeader?: boolean
 }) {
   const { data: session } = authClient.useSession()
-  const [dark, setDark] = useState(false)
+  const [dark, setDark] = useState(() => {
+    if (typeof window === 'undefined') return false
+    const saved = localStorage.getItem('dark-mode')
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const enabled = saved ? saved === 'true' : prefersDark
+    document.documentElement.classList.toggle('dark', enabled)
+    return enabled
+  })
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', dark)
+    localStorage.setItem('dark-mode', String(dark))
+  }, [dark])
   const initial = session?.user?.email?.[0]?.toUpperCase() ?? ''
   return (
     <SidebarProvider>
@@ -34,6 +45,7 @@ export default function Layout({
               <Button
                 variant="ghost"
                 size="icon"
+                aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
                 onClick={() => setDark(v => !v)}
               >
                 {dark ? <Sun className="size-4" /> : <Moon className="size-4" />}
