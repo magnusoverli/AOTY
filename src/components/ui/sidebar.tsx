@@ -28,7 +28,7 @@ export function Sidebar({ children }: { children: ReactNode }) {
   const { open } = useSidebar()
   return (
     <aside
-      className={`flex flex-col border-r bg-white overflow-hidden transition-[width] ${
+      className={`flex h-full flex-col border-r bg-white overflow-hidden transition-[width] ${
         open ? 'w-64' : 'w-0'
       }`}
     >
