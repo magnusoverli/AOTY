@@ -21,7 +21,7 @@ export default function Layout({
         {session?.user && <AppSidebar />}
         <div className="flex-1 flex flex-col">
           {showHeader && session?.user && (
-            <header className="sticky top-0 z-50 flex h-14 shrink-0 items-center justify-between border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4">
+            <header className="sticky top-0 z-50 flex h-header shrink-0 items-center justify-between border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4">
               <div className="flex items-center gap-2">
                 <SidebarTrigger />
                 <span className="font-semibold">Bun App</span>

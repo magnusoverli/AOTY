@@ -4,7 +4,11 @@ module.exports = {
     './src/**/*.{ts,tsx,html}'
   ],
   theme: {
-    extend: {},
+    extend: {
+      height: {
+        header: 'var(--header-height)',
+      },
+    },
   },
   plugins: [],
 }
