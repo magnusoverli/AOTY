@@ -5,6 +5,7 @@ import { db } from './db'
 import * as schema from './db/schema/auth-schema'
 import { config } from 'dotenv'
 import sgMail from '@sendgrid/mail'
+import { isAllowedDevOrigin } from './lib/dev-origins'
 
 config({ path: './.env' })
 
@@ -13,6 +14,20 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY!)
 export const auth = betterAuth({
   baseURL: process.env.BASE_URL || 'http://localhost:3000',
   secret: process.env.AUTH_SECRET!,
+  trustedOrigins: [process.env.BASE_URL || 'http://localhost:3000'],
+  advanced: process.env.NODE_ENV !== 'production'
+    ? { disableCSRFCheck: true }
+    : undefined,
+  hooks: process.env.NODE_ENV !== 'production'
+    ? {
+        before: async ctx => {
+          const origin = ctx.headers.get('origin') || ctx.headers.get('referer') || ''
+          if (origin && !isAllowedDevOrigin(origin)) {
+            throw new Error('Untrusted origin')
+          }
+        },
+      }
+    : undefined,
   database: drizzleAdapter(db, {
     schema: {
       ...schema,
