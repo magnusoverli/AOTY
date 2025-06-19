@@ -38,7 +38,9 @@ export function Sidebar({ children }: { children: ReactNode }) {
 }
 
 export function SidebarHeader({ children }: { children: ReactNode }) {
-  return <div className="p-4 border-b flex items-center gap-2">{children}</div>
+  return (
+    <div className="h-header px-4 border-b flex items-center gap-2">{children}</div>
+  )
 }
 
 export function SidebarContent({ children }: { children: ReactNode }) {
