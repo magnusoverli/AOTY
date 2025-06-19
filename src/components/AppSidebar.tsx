@@ -14,7 +14,7 @@ export default function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <Button size="sm" onClick={() => authClient.signOut()}>Logout</Button>
-        <div className="text-xs text-gray-500 mt-2">{session.user.email}</div>
+        <div className="text-xs text-muted-foreground mt-2">{session.user.email}</div>
       </SidebarFooter>
     </Sidebar>
   )
