@@ -35,4 +35,5 @@ You can also run the app with Docker:
 docker-compose up
 ```
 
-This will start the database and the Bun server.
+This will start the database, Logto, and the Bun server.
+Logto will be available at `http://localhost:3001` with an admin console on `http://localhost:3002`.

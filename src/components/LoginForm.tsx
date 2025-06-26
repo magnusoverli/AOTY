@@ -9,7 +9,7 @@ export default function LoginForm() {
   const sendLink = async () => {
     if (!email) return
     setLoading(true)
-    await authClient.signIn.magicLink({ email })
+    await authClient.logIn(email)
     setLoading(false)
     setSent(true)
   }

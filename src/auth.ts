@@ -1,51 +1,33 @@
-import { betterAuth } from 'better-auth'
-import { magicLink } from 'better-auth/plugins/magic-link'
-import { drizzleAdapter } from 'better-auth/adapters/drizzle'
-import { db } from './db'
-import * as schema from './db/schema/auth-schema'
-import { config } from 'dotenv'
-import sgMail from '@sendgrid/mail'
-import { isAllowedDevOrigin } from './lib/dev-origins'
+import { randomUUID } from 'crypto'
 
-config({ path: './.env' })
+interface Session { email: string }
+const sessions = new Map<string, Session>()
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY!)
+function getToken(req: Request) {
+  const cookie = req.headers.get('cookie') || ''
+  return /session=([^;]+)/.exec(cookie)?.[1]
+}
 
-export const auth = betterAuth({
-  baseURL: process.env.BASE_URL || 'http://localhost:3000',
-  secret: process.env.AUTH_SECRET!,
-  trustedOrigins: [process.env.BASE_URL || 'http://localhost:3000'],
-  advanced: process.env.NODE_ENV !== 'production'
-    ? { disableCSRFCheck: true }
-    : undefined,
-  hooks: process.env.NODE_ENV !== 'production'
-    ? {
-        before: async ctx => {
-          const origin = ctx.headers.get('origin') || ctx.headers.get('referer') || ''
-          if (origin && !isAllowedDevOrigin(origin)) {
-            throw new Error('Untrusted origin')
-          }
-        },
-      }
-    : undefined,
-  database: drizzleAdapter(db, {
-    schema: {
-      ...schema,
-      user: schema.users
-    },
-    provider: 'pg',
-    usePlural: true
-  }),
-  plugins: [
-    magicLink({
-      async sendMagicLink({ email, url }) {
-        await sgMail.send({
-          to: email,
-          from: process.env.SENDGRID_FROM!,
-          subject: 'Your Magic Link',
-          text: `Login using this link: ${url}`,
-        })
-      },
-    }),
-  ],
-})
+export const authRoutes = {
+  async login(req: Request) {
+    const { email } = await req.json()
+    if (!email) return new Response('Email required', { status: 400 })
+    const token = randomUUID()
+    sessions.set(token, { email })
+    return new Response('ok', {
+      headers: { 'Set-Cookie': `session=${token}; HttpOnly; Path=/` },
+    })
+  },
+  session(req: Request) {
+    const token = getToken(req)
+    const user = token ? sessions.get(token) : null
+    return Response.json({ user })
+  },
+  logout(req: Request) {
+    const token = getToken(req)
+    if (token) sessions.delete(token)
+    return new Response('ok', {
+      headers: { 'Set-Cookie': 'session=; Max-Age=0; Path=/' },
+    })
+  },
+} as const

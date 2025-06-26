@@ -56,7 +56,7 @@ export default function AppSidebar() {
         <a href="#" className="block px-3 py-2 rounded hover:bg-muted">Help</a>
       </SidebarContent>
       <SidebarFooter>
-        <Button size="sm" onClick={() => authClient.signOut()}>Logout</Button>
+        <Button size="sm" onClick={() => authClient.logOut()}>Logout</Button>
         <div className="text-xs text-muted-foreground mt-2">{session.user.email}</div>
       </SidebarFooter>
     </Sidebar>
