@@ -1,4 +1,5 @@
 services:
+  # Main app database
   db:
     image: postgres
     restart: unless-stopped
@@ -10,6 +11,33 @@ services:
       - POSTGRES_USER
       - POSTGRES_PASSWORD
       - POSTGRES_DB
+
+  # Logto database
+  logto-db:
+    image: postgres
+    restart: unless-stopped
+    volumes:
+      - logto-db-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=logto
+      - POSTGRES_PASSWORD=logtopass
+      - POSTGRES_DB=logto
+
+  # Initialize Logto database schema
+  logto-init:
+    image: ghcr.io/logto-io/logto:latest
+    entrypoint: >
+      sh -c "
+        echo 'Waiting for database...' &&
+        sleep 10 &&
+        npm run cli db seed -- --swe &&
+        echo 'Logto database initialized successfully'"
+    environment:
+      - DB_URL=postgres://logto:logtopass@logto-db:5432/logto
+    depends_on:
+      - logto-db
 
   logto:
     image: ghcr.io/logto-io/logto:latest
@@ -24,6 +52,10 @@ services:
       - ADMIN_ENDPOINT=${LOGTO_ADMIN_ENDPOINT}
       - COOKIE_SECRET=${LOGTO_COOKIE_SECRET}
       - TRUST_PROXY_HEADER=x-forwarded-host
+      - DB_URL=postgres://logto:logtopass@logto-db:5432/logto
+    depends_on:
+      - logto-db
+      - logto-init
 
   migrate:
     build: .
@@ -50,4 +82,5 @@ services:
 
 volumes:
   db-data:
+  logto-db-data:
   logto-data:
