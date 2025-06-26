@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 
-interface Session { user: { email: string } | null }
+interface Session { user: { email: string; isAdmin?: boolean } | null }
 
 export const authClient = {
-  async logIn(email: string) {
-    await fetch('/api/auth/login', {
+  async logIn(email: string, code?: string) {
+    return fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
-    })
+      body: JSON.stringify({ email, code }),
+    }).then(r => r.json())
   },
   async logOut() {
     await fetch('/api/auth/logout', { method: 'POST' })
