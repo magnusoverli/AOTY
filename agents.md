@@ -1,7 +1,7 @@
 # Project Development Guidelines
 
 ## Core Principles
-- **Keep files small**: No file should exceed 150 lines. Split into multiple files if needed.
+- **Keep files small**: No file should exceed 200 lines. Split into multiple files if needed.
 - **Single responsibility**: Each file should have one clear purpose.
 - **Minimal dependencies**: Only install what's absolutely necessary.
 - **Progressive enhancement**: Start with the simplest working solution.
@@ -25,12 +25,6 @@
 - One component per file
 - Co-locate component-specific styles and types
 
-### Better Auth Implementation
-- Start with magic link only - no password complexity initially
-- Use minimal configuration
-- Store only essential user data
-- Implement auth check as a simple middleware
-
 ### Database (Drizzle)
 - Start with a single `schema.ts` file
 - Only create tables for:
@@ -47,7 +41,7 @@
 
 ### Docker Configuration
 - Single-stage Dockerfile (no multi-stage build initially)
-- Minimal docker-compose with just app + postgres
+- Minimal docker-compose with just app + dependecies
 - Use standard ports (3000 for app, 5432 for postgres)
 
 ## Code Organization
@@ -118,6 +112,9 @@ Don't create index.ts barrel exports
 Don't add testing setup initially
 Don't create abstract base components
 Don't add state management beyond React's built-in hooks
+Don't modify binary files alongside code changes
+Don't commit generated images, compiled assets, or binary data
+Don't version control node_modules, .DS_Store, or IDE-specific files
 
 Database Migrations:
 
