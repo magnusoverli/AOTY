@@ -6,11 +6,17 @@
  */
 
 import { createRoot } from "react-dom/client";
+import { LogtoProvider } from '@logto/react';
 import { App } from "./App";
+import { logtoConfig } from './logto-config';
 
 function start() {
   const root = createRoot(document.getElementById("root")!);
-  root.render(<App />);
+  root.render(
+    <LogtoProvider config={logtoConfig} navigate={url => (window.location.href = url)}>
+      <App />
+    </LogtoProvider>
+  );
 }
 
 if (document.readyState === "loading") {
