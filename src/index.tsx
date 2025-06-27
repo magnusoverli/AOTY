@@ -19,7 +19,7 @@ const server = serve({
           return Response.json({ error: 'Invalid invitation code' }, { status: 400 })
         }
       }
-      await auth.signIn.magicLink({ email })
+      await auth.magicLink.signIn({ email })
       return Response.json({ ok: true })
     },
 
