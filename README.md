@@ -36,3 +36,13 @@ docker-compose up
 ```
 
 This will start the database and the Bun server.
+
+## Invitation Codes
+
+Generate a new code with:
+
+```bash
+bun run scripts/create-invite.ts
+```
+
+The generated code is valid for all new sign ups until you run the script again.

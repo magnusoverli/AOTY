@@ -44,4 +44,9 @@ export const verifications = pgTable("verifications", {
  expiresAt: timestamp('expires_at').notNull(),
  createdAt: timestamp('created_at').$defaultFn(() => new Date),
  updatedAt: timestamp('updated_at').$defaultFn(() => new Date)
-				});
+                               });
+
+export const invitationCodes = pgTable("invitation_codes", {
+                                        code: text('code').primaryKey(),
+                                        createdAt: timestamp('created_at').$defaultFn(() => new Date)
+                                });
