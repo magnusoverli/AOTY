@@ -76,6 +76,7 @@ services:
       LOGTO_ENDPOINT: ${LOGTO_ENDPOINT}
       LOGTO_APP_ID: ${LOGTO_APP_ID}
       LOGTO_APP_SECRET: ${LOGTO_APP_SECRET}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
     depends_on:
       - db
       - logto
