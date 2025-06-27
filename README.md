@@ -1,6 +1,6 @@
 # Bun App
 
-This project uses Bun with React and Drizzle.
+This project uses Bun with React, Drizzle and Logto for authentication.
 
 ## Setup
 
@@ -35,4 +35,4 @@ You can also run the app with Docker:
 docker-compose up
 ```
 
-This will start the database and the Bun server.
+This will start the database, Logto server, and the Bun app.
