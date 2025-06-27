@@ -33,8 +33,24 @@ The server will be available at `http://localhost:3000`.
 You can also run the app with Docker:
 
 ```bash
+# apply database migrations
+docker-compose run migrate
+# start the services
 docker-compose up
 ```
 
-This will start the database, Logto, and the Bun server.
-Logto will be available at `http://localhost:3001` with an admin console on `http://localhost:3002`.
+Make sure `LOGTO_ENDPOINT` in `.env` is set to `http://logto:3001` so the app
+container can reach Logto. The admin console will be available at
+`http://localhost:3002`.
+
+If migrations fail with `No schema files found`, ensure `schema` in
+`drizzle.config.ts` is `./src/db/schema.ts`.
+
+`POSTGRES_USER`, `POSTGRES_PASSWORD`, and `POSTGRES_DB` in `.env` configure
+the database containers. If migrations fail with errors like
+`column "is_admin" does not exist`, remove the volume and rerun them:
+
+```bash
+docker-compose down -v
+docker-compose run migrate
+```
