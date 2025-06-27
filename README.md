@@ -10,7 +10,8 @@ This project uses Bun with React and Drizzle.
 bun install
 ```
 
-2. Create a `.env` from the provided example and update the values.
+2. Create a `.env` from the provided example and update the values. Set
+   `ADMIN_EMAIL` to the first administrator account.
 
 3. Generate the SQL and run the migration:
 
