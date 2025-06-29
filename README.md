@@ -1,6 +1,6 @@
 # Bun App
 
-This project uses Bun with React and Drizzle.
+This project uses Bun with React, Drizzle and Logto for authentication.
 
 ## Setup
 
@@ -11,6 +11,8 @@ bun install
 ```
 
 2. Create a `.env` from the provided example and update the values.
+   You'll need `LOGTO_ENDPOINT` and `LOGTO_APP_ID` for the Logto service.
+   The Postgres variables are used by Docker when starting the stack.
 
 3. Generate the SQL and run the migration:
 
@@ -35,4 +37,6 @@ You can also run the app with Docker:
 docker-compose up
 ```
 
-This will start the database and the Bun server.
+This will start Postgres and Logto. The Logto service uses a small Node script
+to wait for Postgres, deploys its database changes, seeds initial data and then
+starts. The Bun app launches once both services are ready.

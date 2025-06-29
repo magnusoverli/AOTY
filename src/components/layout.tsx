@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react'
-import { authClient } from '../auth-client'
+import { useLogto } from '@logto/react'
 import AppSidebar from './AppSidebar'
 import { SidebarProvider, SidebarTrigger } from './ui/sidebar'
 import { Button } from './ui/button'
@@ -12,7 +12,7 @@ export default function Layout({
   children: ReactNode
   showHeader?: boolean
 }) {
-  const { data: session } = authClient.useSession()
+  const { isAuthenticated, userInfo } = useLogto()
   const [dark, setDark] = useState(() => {
     if (typeof window === 'undefined') return false
     const saved = localStorage.getItem('dark-mode')
@@ -25,11 +25,11 @@ export default function Layout({
     document.documentElement.classList.toggle('dark', dark)
     localStorage.setItem('dark-mode', String(dark))
   }, [dark])
-  const initial = session?.user?.email?.[0]?.toUpperCase() ?? ''
+  const initial = userInfo?.email?.[0]?.toUpperCase() ?? ''
   return (
     <SidebarProvider>
       <div className="min-h-screen flex flex-col">
-        {showHeader && session?.user && (
+        {showHeader && isAuthenticated && (
           <header className="sticky top-0 z-50 flex h-14 shrink-0 items-center justify-between border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4">
             <div className="flex items-center gap-2">
               <SidebarTrigger />
@@ -54,7 +54,7 @@ export default function Layout({
           </header>
         )}
         <div className="flex flex-1">
-          {session?.user && <AppSidebar />}
+          {isAuthenticated && <AppSidebar />}
           <main className="flex-1 p-4">{children}</main>
         </div>
       </div>

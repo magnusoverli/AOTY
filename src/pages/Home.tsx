@@ -1,13 +1,13 @@
 import Layout from '../components/layout'
-import LoginForm from '../components/LoginForm'
 import Dashboard from '../components/Dashboard'
-import { authClient } from '../auth-client'
+import Login from '../components/Login'
+import { useLogto } from '@logto/react'
 
 export default function Home() {
-  const { data: session } = authClient.useSession()
+  const { isAuthenticated } = useLogto()
   return (
-    <Layout showHeader={!!session?.user}>
-      {session?.user ? <Dashboard /> : <LoginForm />}
+    <Layout showHeader={isAuthenticated}>
+      {isAuthenticated ? <Dashboard /> : <Login />}
     </Layout>
   )
 }
