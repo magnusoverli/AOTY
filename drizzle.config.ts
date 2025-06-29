@@ -1,6 +1,5 @@
 import { defineConfig } from 'drizzle-kit';
 import { config } from 'dotenv'
-import * as authSchema from './src/db/schema/auth-schema'
 config({ path: './.env' })
 
 export default defineConfig({

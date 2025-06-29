@@ -1,4 +1,4 @@
-import { authClient } from '../auth-client'
+import { useLogto } from '@logto/react'
 import { Button } from './ui/button'
 import {
   Sidebar,
@@ -9,8 +9,8 @@ import { List, ChevronRight, ChevronDown } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 export default function AppSidebar() {
-  const { data: session } = authClient.useSession()
-  if (!session?.user) return null
+  const { userInfo, signOut } = useLogto()
+  if (!userInfo) return null
   const COOKIE = 'lists_open'
   const read = () => {
     const c = document.cookie.split('; ').find(v => v.startsWith(COOKIE + '='))
@@ -56,8 +56,8 @@ export default function AppSidebar() {
         <a href="#" className="block px-3 py-2 rounded hover:bg-muted">Help</a>
       </SidebarContent>
       <SidebarFooter>
-        <Button size="sm" onClick={() => authClient.signOut()}>Logout</Button>
-        <div className="text-xs text-muted-foreground mt-2">{session.user.email}</div>
+        <Button size="sm" onClick={() => signOut()}>Logout</Button>
+        <div className="text-xs text-muted-foreground mt-2">{userInfo.email}</div>
       </SidebarFooter>
     </Sidebar>
   )
